@@ -18,7 +18,7 @@ public class Scorekeeper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        level = SceneManager.GetActiveScene().buildIndex + 1;
+        level = SceneManager.GetActiveScene().buildIndex - 1;
         DisplayScene();
         DisplayScore();
     }
@@ -36,8 +36,7 @@ public class Scorekeeper : MonoBehaviour
 
         if(score >= SCORE_THRESHOLD)
         {
-            SceneManager.LoadScene(level); //level is currently set at 1 greater than the index
-            //so when we advance we can use level.
+            SceneManager.LoadScene(level + 2); //level is already 1 less than the index (e.g. 1 instead of 2)
         }
     }
 
