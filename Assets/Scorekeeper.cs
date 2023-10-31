@@ -7,10 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class Scorekeeper : MonoBehaviour
 {
-    [SerializeField] int score = 0;
+    [SerializeField] int score;
     [SerializeField] TMP_Text scoreText;
     [SerializeField] TMP_Text sceneText;
+    [SerializeField] TMP_Text nameText;
     [SerializeField] int level;
+    [SerializeField] int scoreThresholdForThisLevel;
 
     public const int DEFAULT_POINTS = 1;
     public const int SCORE_THRESHOLD = 10;
@@ -19,6 +21,9 @@ public class Scorekeeper : MonoBehaviour
     void Start()
     {
         level = SceneManager.GetActiveScene().buildIndex - 1;
+        score = PersistentData.Instance.GetScore();
+        scoreThresholdForThisLevel = SCORE_THRESHOLD * level;
+        DisplayName();
         DisplayScene();
         DisplayScore();
     }
@@ -32,9 +37,10 @@ public class Scorekeeper : MonoBehaviour
     public void AddPoints(int points)
     {
         score += points;
+        PersistentData.Instance.SetScore(score);
         DisplayScore();
 
-        if(score >= SCORE_THRESHOLD)
+        if(score >= scoreThresholdForThisLevel)
         {
             SceneManager.LoadScene(level + 2); //level is already 1 less than the index (e.g. 1 instead of 2)
         }
@@ -44,6 +50,11 @@ public class Scorekeeper : MonoBehaviour
     {
         AddPoints(DEFAULT_POINTS);
 
+    }
+
+    private void DisplayName()
+    {
+        nameText.SetText("Hi, " + PersistentData.Instance.GetName() + "!");
     }
 
     private void DisplayScore()
