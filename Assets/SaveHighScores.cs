@@ -21,7 +21,7 @@ public class SaveHighScores : MonoBehaviour
         playerName = PersistentData.Instance.GetName();
         playerScore = PersistentData.Instance.GetScore();
 
-        playerScore = playerScore + Random.Range(0, 10);
+        playerScore = playerScore + Random.Range(11,21);
 
         SaveScore();
         ViewScores();
